@@ -130,12 +130,15 @@ def signup(user_credentials: UserAuth):
 @app.post("/api/auth/login")
 def login(user_credentials: UserAuth):
     try:
+        print(f"Login attempt for email: {user_credentials.email}")
         user = supabase.auth.sign_in_with_password({
             "email": user_credentials.email,
             "password": user_credentials.password,
         })
+        print(f"Login success: {user}")
         return {"user": user.user, "session": user.session}
     except Exception as e:
+        print(f"Login error: {e}")
         raise HTTPException(status_code=401, detail="Invalid login credentials.")
 
 # --- You would add more endpoints here for saved news and history ---
